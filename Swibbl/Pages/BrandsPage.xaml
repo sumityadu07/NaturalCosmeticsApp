@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.BrandsPage"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:models="clr-namespace:Swibbl.Models.Shop"
+             x:DataType="pages:BrandsPageModel"
+			 xmlns:fontawesome="clr-namespace:FontAwesome">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                     Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <NavigationPage.TitleView>
+        <Label Text="Brands"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout>
+            <CollectionView ItemsSource="{Binding Brands}"
+                            SelectedItem="{Binding SelectedItem}"
+                            SelectionMode="Single">
+                <CollectionView.Header>
+                    <StackLayout Padding="20"> 
+                        <Label Text="Shop by Brands"
+                               Style="{StaticResource title}"/>
+
+                    </StackLayout>
+                </CollectionView.Header>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="1"
+                               HasShadow="False"
+                               BackgroundColor="{StaticResource SubSecondary}"
+                               >
+                            <StackLayout BackgroundColor="{StaticResource SubPrimary}"
+                                         Padding="10">
+                        <ffimg:CachedImage Source="{Binding Imgurl}"
+                                           x:DataType="models:Brand"
+                                           Style="{StaticResource cacheimage}"
+                                           HeightRequest="30"
+                                           HorizontalOptions="StartAndExpand"/>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

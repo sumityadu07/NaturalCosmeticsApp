@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:Swibbl.Pages" xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="Swibbl.Pages.PostPage">
+    <ContentPage.Content>
+        <StackLayout x:DataType="models:PostPageModel"
+                     Margin="5">
+            <Label Text="{Binding Post.Title}"
+                   Style="{StaticResource title}"
+                   FontSize="Title"/>
+            <Frame CornerRadius="10"
+                   Padding="0">
+                <ffimg:CachedImage Source="{Binding Post.Imgurl}"
+                                   Style="{StaticResource cacheimage}"
+                                   HeightRequest="250"
+                                   Aspect="AspectFill"
+                                   LoadingPriority="Highest"/>
+            </Frame>
+
+            <Label Text="{Binding Post.Description}"
+                   Style="{StaticResource body}"
+                   TextColor="{StaticResource Normal}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

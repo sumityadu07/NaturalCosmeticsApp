@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:swibbl="clr-namespace:Swibbl"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Swibbl.Pages.LoginDockPage">
+    <NavigationPage.TitleView>
+        <Label Text="Login / Signup"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <AbsoluteLayout x:DataType="pages:LoginBaseModel">
+        <Label Text="Login to Continue"
+               Style="{StaticResource title}"
+               FontSize="Title"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               AbsoluteLayout.LayoutBounds="0.3,0.41,215,80"/>
+        <Frame Style="{StaticResource bindframe}"
+               AbsoluteLayout.LayoutFlags="PositionProportional"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,280,50">
+            <StackLayout Orientation="Horizontal" Spacing="5">
+                <Image Style="{StaticResource flagimg}"/>
+                <Label Style="{StaticResource cclabel}"/>
+                <BoxView Style="{StaticResource linebox}"/>
+                <swibbl:CustomEntry Placeholder="Phone"
+									Text="{Binding Phone}"/>
+            </StackLayout>
+        </Frame>
+        <Button Text="Login / Signup"
+				Command="{Binding SendCodeCommand}"
+                CommandParameter="Dock"
+                WidthRequest="100"
+                FontSize="Subtitle"
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+                AbsoluteLayout.LayoutBounds="0.5,0.59,280,45"/>
+    </AbsoluteLayout>
+</ContentPage>

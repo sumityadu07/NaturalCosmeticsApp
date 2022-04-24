@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:vm="clr-namespace:Swibbl.Pages"
+			 xmlns:fontAwesome="clr-namespace:FontAwesome"
+             xmlns:loading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:models="clr-namespace:Swibbl.Models" xmlns:pm="clr-namespace:Swibbl.Models.Shop"
+             x:Class="Swibbl.Pages.ItemPage"
+             x:DataType="vm:ItemPageModel">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Product.Name}"
+				Style="{StaticResource titletext}"
+                LineBreakMode="TailTruncation"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <ScrollView>
+            <Grid xct:StateLayout.AnimateStateChanges="False"
+                  xct:StateLayout.CurrentState="{Binding State}"
+                  RowDefinitions="600">
+                <xct:StateLayout.StateViews>
+                    <xct:StateView StateKey="Loading"
+                                   Template="{StaticResource loading_state}"/>
+                </xct:StateLayout.StateViews>
+                <Grid RowDefinitions="280,40,20,45,30,30,auto,65"
+                      ColumnDefinitions="150"
+                      Padding="5">
+                    <loading:CachedImage Source="{Binding Product.ImgUrl}"
+                                         Style="{StaticResource cacheimage}"
+                                         Aspect="AspectFit"
+                                         Grid.ColumnSpan="2"
+                                         />
+                    <Button Text="{Binding Product.Brand,StringFormat='Visit {0} store'}"
+                            BackgroundColor="Transparent"
+                            Grid.ColumnSpan="2"
+                            Grid.Row="1"
+                            TextColor="{StaticResource Secondary}"
+                            HorizontalOptions="Start"
+                            Padding="2,0,0,-20"/>
+                    <Label Text="{Binding Product.Name}"
+                            Style="{StaticResource body}"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.ColumnSpan="2"
+                           Grid.Row="2"
+                           Padding="2"/>
+                    <Label Text="{Binding Product.Discount,StringFormat='{0}% Off'}"
+                           Style="{StaticResource body}"
+                           Grid.Row="3"
+                           Padding="10">
+                    </Label>
+                    <Button Text="{x:Static fontAwesome:FontAwesomeIcons.ShareAlt}"
+                            FontFamily="FAS"
+                            BackgroundColor="Transparent"
+                            Grid.Column="1"
+                            Grid.Row="3"
+                            TextColor="{StaticResource Secondary}"
+                            FontSize="Large"
+                            HorizontalOptions="End"
+                            Command="{Binding ShareCommand}"/>
+
+                    <Label Text="₹"
+                           Style="{StaticResource body}"
+                           Grid.Row="4"
+                           Padding="5"/>
+                    <Label Text="{Binding Product.DiscountedPrice}"
+                           Style="{StaticResource subTitle}"
+                           Grid.Row="4"
+                           FontSize="Large"
+                           Padding="12,0,0,0"/>
+                    <Label Text="MRP:"
+                           Style="{StaticResource caption}"
+                           TextColor="{StaticResource Normal}"
+                           Grid.Row="5"
+                           Padding="5,0,5,0"/>
+
+                    <Label Text="{Binding Product.Price,StringFormat='₹{0}'}"
+                           TextDecorations="Strikethrough"
+                           Style="{StaticResource caption}"
+                           TextColor="{StaticResource Normal}"
+                           Grid.Row="5"
+                           Margin="30,0,0,0"
+                           Padding="10,0,0,0"/>
+                    <Label Text="{Binding Product.Savings,StringFormat='Save ₹{0}'}"
+                           Grid.Row="5"
+                           Style="{StaticResource body}"
+                           Padding="70,-2,0,0"
+                           VerticalTextAlignment="Start"/>
+                    
+                        <StackLayout Orientation="Horizontal"
+                                     Spacing="10"
+                                     Grid.Row="6"
+                                     Grid.ColumnSpan="2"
+                                     HorizontalOptions="Center"
+                                     WidthRequest="300">
+                        <ImageButton Source="heart"
+                                     Command="{Binding WishlistCommand}"
+                                     CornerRadius="100"
+                                     BorderColor="{StaticResource Secondary}"
+                                     xct:IconTintColorEffect.TintColor="Black"
+                                     BackgroundColor="Transparent"
+                                     HeightRequest="40"
+                                     />
+
+                        <Button Text="Add to Cart"
+                                BackgroundColor="{StaticResource Primary}"
+                                Command="{Binding AddCartCommand}"
+                                HorizontalOptions="FillAndExpand"
+                                CornerRadius="10"/>
+
+                        </StackLayout>
+                    <Frame CornerRadius="4"
+                           Grid.Row="7"
+                           Padding="12"
+                           Grid.ColumnSpan="2"
+                           Margin="10"
+                           HorizontalOptions="Center"
+                           BorderColor="{StaticResource Primary}">
+                        <Label Style="{StaticResource fas}">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="View Product Details"
+                                          FontSize="Body"/>
+                                    <Span Text="  "/>
+                                    <Span Text="{x:Static fontAwesome:FontAwesomeIcons.RightArrowAlt}"
+                                          />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ViewDetailsCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                </Grid>
+                <Grid RowDefinitions="28,280,30,340"
+                      Grid.Row="1">
+                    <Grid.Resources>
+                        <Style TargetType="Label" x:Name="label" BasedOn="{StaticResource title}">
+                            <Setter Property="Padding" Value="5"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Label Text="Reviews and Ratings"
+                           Style="{Reference label}"/>
+                <!--Reviews-->
+                <CollectionView ItemsSource="{Binding Reviews}"
+                                Grid.Row="1"
+                                HeightRequest="300">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="5"
+									         x:DataType="models:Review">
+                                    <StackLayout Spacing="0">
+                                        <Label Text="{Binding Reviewer}"
+                                                Style="{StaticResource body}"
+											    TextColor="{StaticResource Additional}"/>
+                                        <Label Text="{Binding Comment}"
+                                                Style="{StaticResource caption}"
+											    TextColor="{StaticResource Normal}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <Frame Padding="10"
+                                   CornerRadius="5"
+                                   >
+                                <Label Style="{StaticResource fas}"
+                                       HorizontalOptions="End">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="View More"
+                                                  FontSize="Body"/>
+                                            <Span Text="  "/>
+                                            <Span Text="{x:Static fontAwesome:FontAwesomeIcons.RightArrowAlt }"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewReviewsCommand}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </CollectionView.Footer>
+                    </CollectionView>
+                <Label Text="Customers also bought"
+                       Style="{Reference label}"
+                       Grid.Row="2"/>
+                <CollectionView ItemsSource="{Binding Categoryitems}"
+                                HeightRequest="310"
+                                Grid.Row="3"
+                                SelectedItem="{Binding SelectedItem}">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                               ItemSpacing="10"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="5">
+                                    <Frame Padding="0"
+                                           HorizontalOptions="Center"
+                                           WidthRequest="180">
+                                        <StackLayout x:DataType="pm:Product">
+                                            <Label Text="{Binding State}"
+                                                   Style="{StaticResource title}"
+                                                   FontSize="Caption"
+                                                   Padding="2"
+                                                   TextColor="Green"/>
+                                            <loading:CachedImage Style="{StaticResource cacheimage}"
+                                                                Source="{Binding ImgUrl}"
+                                                                Aspect="AspectFit"
+                                                                HeightRequest="140"/>
+                                            <Label Text="{Binding Name}"
+                                                   Style="{StaticResource caption}"
+                                                   HorizontalTextAlignment="Center"
+                                                   Padding="3"
+                                                   LineBreakMode="WordWrap"/>
+                                            <Label HorizontalOptions="Center">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <FormattedString.Spans>
+                                                            <Span Text="{Binding Price,StringFormat='₹{0}'}"
+                                                                  FontSize="11"
+                                                                    Style="{StaticResource caption}"
+                                                              TextDecorations="Strikethrough"/>
+                                                            <Span Text=" "/>
+                                                            <Span Text="{Binding DiscountedPrice,StringFormat='₹{0}'}"
+                                                                  Style="{StaticResource body}"/>
+                                                            <Span Text=" | "
+                                                                  Style="{StaticResource body}"/>
+                                                            <Span Text="{Binding Discount,StringFormat='{0}% Off'}"
+                                                                    Style="{StaticResource subTitle}"
+                                                                    TextColor="#b91372"
+                                                                FontSize="13"/>
+                                                        </FormattedString.Spans>
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Frame CornerRadius="8"
+                                                   Padding="5"
+                                                   Margin="5,1"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   BackgroundColor="{StaticResource Primary}">
+                                                <Label Text="5.5"
+                                                       Style="{StaticResource body}"
+                                                       FontSize="9"
+                                                       TextColor="{StaticResource SubPrimary}"/>
+                                            </Frame>
+                                            <Frame Padding="0"
+                                                   HeightRequest="45"
+                                                   VerticalOptions="EndAndExpand">
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="0">
+                                                    <ImageButton Command="{Binding Source={RelativeSource AncestorType=                                                       {x:Type vm:ListPageModel}},
+                                                                   Path=WishlistCommand}"
+                                                                 CommandParameter="{Binding .}"
+                                                                 Source="heart"
+                                                                 BackgroundColor="Transparent"
+                                                                 xct:IconTintColorEffect.TintColor="Black"
+                                                                 Margin="2"/>
+
+                                                    <Button Text="Add to Cart"
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ListPageModel}},Path=AddCartCommand}"
+                                                            HorizontalOptions="FillAndExpand"
+                                                            CommandParameter="{Binding .}"
+                                                            CornerRadius="0"/>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                        <CollectionView.Footer>
+                            <Frame Padding="10"
+                                   BorderColor="{StaticResource Primary}"
+                                   CornerRadius="5"
+                                   VerticalOptions="CenterAndExpand">
+                                <Label Style="{StaticResource fas}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="View More"
+                                                  FontSize="Body"/>
+                                            <Span Text="  "/>
+                                            <Span Text="{x:Static fontAwesome:FontAwesomeIcons.RightArrowAlt }"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ViewMoreCommand}"/>
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </CollectionView.Footer>
+                    </CollectionView>
+                </Grid>
+            </Grid>
+        </ScrollView>
+	</ContentPage.Content>
+</ContentPage>

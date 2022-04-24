@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.SubCategoriesPage"
+			 xmlns:fontAwesome="clr-namespace:FontAwesome"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             x:DataType="pages:SubCategoriesPageModel"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             Shell.TabBarIsVisible="False">
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Title}"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid xct:StateLayout.AnimateStateChanges="True"
+              xct:StateLayout.CurrentState="{Binding State}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading"
+                           Template="{StaticResource loading_state}"
+                           />
+                <xct:StateView StateKey="Error"
+                            Template="{StaticResource error_state}"/>
+            </xct:StateLayout.StateViews>
+            <CollectionView ItemsSource="{Binding SubCategories}"
+                            HeightRequest="400"
+                            SelectedItem="{Binding SelectedSubCategory}"
+                            >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="1"
+                                     x:DataType="shop:SubCategory"
+                                     Orientation="Horizontal"
+                                     BackgroundColor="{StaticResource SubSecondary}">
+                            
+                            <Label Text="{Binding Name}"
+                                   Style="{StaticResource body}"
+                                   FontSize="Small"
+                                   Padding="15"
+                                   HorizontalOptions="FillAndExpand"
+                                   CharacterSpacing="1"
+                                   BackgroundColor="{StaticResource SubPrimary}"/>
+                            
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

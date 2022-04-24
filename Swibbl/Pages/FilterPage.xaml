@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             x:Class="Swibbl.Pages.FilterPage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="pages:FilterPageModel">
+    <NavigationPage.TitleView>
+        <Label Text="Filter"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid xct:StateLayout.AnimateStateChanges="True"
+              xct:StateLayout.CurrentState="{Binding State}"
+              ColumnDefinitions="160"
+              BackgroundColor="{StaticResource SubSecondary}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading"
+                                   Template="{StaticResource loading_state}"/>
+            </xct:StateLayout.StateViews>
+            <CollectionView HorizontalOptions="Start"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedItem}"
+                            ItemsSource="{Binding Categories}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout ItemSpacing="2"
+                                       Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.Resources>
+                    <Style TargetType="StackLayout">
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+                            <VisualStateGroupList>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="box"
+                                                    Property="BoxView.BackgroundColor"
+                                                    Value="{StaticResource SubSecondary}"/>
+                                            <Setter TargetName="label"
+                                                    Property="Label.TextColor"
+                                                    Value="{StaticResource Secondary}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="box"
+                                                    Property="BoxView.BackgroundColor"
+                                                    Value="{StaticResource Primary}"/>
+                                            <Setter TargetName="label"
+                                                    Property="Label.TextColor"
+                                                    Value="{StaticResource Primary}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </Setter>
+                    </Style>
+                </CollectionView.Resources>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal"
+                                     x:DataType="shop:Category"
+                                     Padding="3,10"
+                                     BackgroundColor="{StaticResource SubPrimary}">
+                            <BoxView HorizontalOptions="Start"
+                                     WidthRequest="10"
+                                     x:Name="box"/>
+                            <Label Text="{Binding Name}"
+                                   Style="{StaticResource body}"
+                                   FontFamily="OSB"
+                                   WidthRequest="80"
+                                   VerticalTextAlignment="Center"
+                                   x:Name="label"/>
+                            <Label Text="{Binding Count}"
+                                   Style="{StaticResource caption}"
+                                   VerticalTextAlignment="Center"
+                                   />
+                            <Label Text="{x:Static fontawesome:FontAwesomeIcons.ChevronRight}"
+                                   Style="{StaticResource fas}"
+                                   FontSize="Micro"
+                                   HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <CollectionView Grid.Column="1"
+                            ItemsSource="{Binding SubCategories}"
+                            SelectedItems="{Binding SelectedSubs}"
+                            SelectionMode="Multiple"
+                            >
+                <CollectionView.Resources>
+                    <Style TargetType="StackLayout">
+                        <Setter Property="VisualStateManager.VisualStateGroups">
+                            <VisualStateGroupList>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="checkbox"
+                                                    Property="CheckBox.IsChecked"
+                                                    Value="False"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter TargetName="checkbox"
+                                                    Property="CheckBox.IsChecked"
+                                                    Value="True"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateGroupList>
+                        </Setter>
+                    </Style>
+                </CollectionView.Resources>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Orientation="Horizontal"
+                                     x:DataType="shop:SubCategory"
+                                     Padding="5"
+                                     BackgroundColor="{StaticResource SubPrimary}">
+                            <CheckBox IsEnabled="False"
+                                      Color="{StaticResource Normal}"
+                                      x:Name="checkbox"/>
+                            <Label Text="{Binding Name}"
+                                   Style="{StaticResource body}"
+                                   FontFamily="OSB"
+                                   VerticalTextAlignment="Center"/>
+                            <Label Text="{x:Static fontawesome:FontAwesomeIcons.ChevronRight}"
+                                   Style="{StaticResource fas}"
+                                   FontSize="Micro"
+                                   HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Button Text="Apply"
+                    Command="{Binding ApplyFilterCommand}"
+                    VerticalOptions="End"
+                    CornerRadius="0"
+                    Grid.ColumnSpan="2"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

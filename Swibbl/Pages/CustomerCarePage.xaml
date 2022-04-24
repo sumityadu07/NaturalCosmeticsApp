@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.CustomerCarePage">
+    <NavigationPage.TitleView>
+        <Label Text="Customer Care"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout Padding="15">
+            <Label Text="Contact Us"
+                   Style="{StaticResource title}"
+                   FontSize="Title"/>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Call us at: "
+                              Style="{StaticResource caption}"/>
+                        <Span Text="+918770061071"
+                              Style="{StaticResource subTitle}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Mail us at: "
+                              Style="{StaticResource caption}"/>
+                        <Span Text="support@swibbl.com"
+                              Style="{StaticResource subTitle}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

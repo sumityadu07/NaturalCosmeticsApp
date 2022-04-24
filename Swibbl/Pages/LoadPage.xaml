@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.LoadPage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Frame Padding="4"
+               HeightRequest="40"
+               WidthRequest="40"
+               HorizontalOptions="CenterAndExpand"
+               VerticalOptions="CenterAndExpand"
+               CornerRadius="50">
+            <ActivityIndicator Style="{StaticResource indicator}"
+                               IsRunning="True"/>
+        </Frame>
+    </ContentPage.Content>
+</ContentPage>

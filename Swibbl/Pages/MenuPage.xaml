@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:fontawesome="clr-namespace:FontAwesome"
+			 xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+			 x:Class="Swibbl.Pages.MenuPage"
+             x:DataType="viewmodel:MenuPageModel"
+             BackgroundColor="{StaticResource SubSecondary}">
+    <NavigationPage.TitleView>
+        <Label Text="Profile"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ScrollView>
+        <Grid xct:StateLayout.AnimateStateChanges="False"
+              xct:StateLayout.CurrentState="{Binding State}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading"
+                               Template="{StaticResource loading_state}"/>
+            </xct:StateLayout.StateViews>
+
+            <StackLayout Spacing="2">
+                <StackLayout.Resources>
+                    <Style TargetType="Label" ApplyToDerivedTypes="True" BasedOn="{StaticResource subTitle}">
+                        <Setter Property="FontFamily" Value="OM"/>
+                        <Setter Property="Padding" Value="0"/>
+                    </Style>
+                    <Style TargetType="Frame" ApplyToDerivedTypes="True">
+                        <Setter Property="Padding" Value="15"/>
+                        <Setter Property="HasShadow" Value="False"/>
+                        <Setter Property="BackgroundColor" Value="{StaticResource SubPrimary}"/>
+                    </Style>
+                    <Style TargetType="Label" x:Key="awesome" BasedOn="{StaticResource fas}">
+                        <Setter Property="Text" Value="{x:Static fontawesome:FontAwesomeIcons.ChevronRight}"/>
+                        <Setter Property="HorizontalOptions" Value="EndAndExpand"/>
+                        <Setter Property="Grid.RowSpan" Value="2"/>
+                        <Setter Property="FontSize" Value="Micro"/>
+                        <Setter Property="TextColor" Value="{StaticResource Additional2}"/>
+                    </Style>
+                    <Style TargetType="Label" x:Key="details" BasedOn="{StaticResource caption}">
+                        <Setter Property="Grid.Row" Value="1"/>
+                    </Style>
+                </StackLayout.Resources>
+                <!--Details-->
+				<Frame Padding="15"
+                       Margin="1"
+                       HasShadow="False"
+                       IsVisible="{Binding Phone,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}">
+                    <StackLayout>
+                        <Label Text="{Binding Name,StringFormat='Hello, {0}'}"
+							   Style="{StaticResource title}"
+                               IsVisible="{Binding Name,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"/>
+                        <Label Text="{Binding Phone}"
+							   Style="{StaticResource body}"/>
+					</StackLayout>
+				</Frame>
+			
+			<!--Options-->
+                    
+                    <StackLayout IsVisible="{Binding Phone,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"
+                                 Orientation="Vertical"
+                                 Spacing="1">
+                        <Frame>
+                            <Grid>
+                                <Label Text="Manage Account"/>
+                                <Label Text="Your saved details"
+                                       Style="{StaticResource details}"/>
+
+                                <Label Style="{StaticResource awesome}"/>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding EditProfileCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame>
+                            <Grid>
+                                <Label Text="Your Orders"/>
+                                <Label Text="Check your previous orders"
+                                       Style="{StaticResource details}"/>
+                                <Label Style="{StaticResource awesome}"/>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding OrdersCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame>
+                            <Grid>
+                                <Label Text="Your Address"/>
+                                <Label Text="Your saved addresses"
+                                       Style="{StaticResource details}"/>
+
+                                <Label Style="{StaticResource awesome}"/>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AddressCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame>
+                            <Grid>
+                                <Label Text="Customer Care"/>
+                                <Label Text="Need Help? Contact us."
+                                       Style="{StaticResource details}"/>
+
+                                <Label Style="{StaticResource awesome}"/>
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding CareCommand}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        
+                    </StackLayout>
+
+                    <Button Text="Login / Signup"
+                            Command="{Binding OpenLoginCommand}"
+                            Margin="10"
+                            IsVisible="{Binding Phone,Converter={StaticResource StringNullOrEmptyBoolConverter}}"/>
+                    <Frame>
+                        <Grid>
+                            <Label Text="Wishlist"/>
+                            <Label Text="Your Wishes are with us."
+                                       Style="{StaticResource details}"/>
+
+                            <Label Style="{StaticResource awesome}"/>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding WishlistCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame>
+                        <Grid>
+                            <Label Text="Cart"/>
+                            <Label Text="Check items on cart."
+                                       Style="{StaticResource details}"/>
+
+                            <Label Style="{StaticResource awesome}"/>
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CartCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame>
+                            <Label Text="About Swibbl"
+                                   TextColor="{StaticResource Additional2}"/>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AboutCommand}"/>
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                <!--SignOut Button-->
+					<Button Text="Log out"
+							TextColor="{StaticResource Additional2}"
+							BackgroundColor="{StaticResource SubSecondary}"
+							CornerRadius="5"
+							Command="{Binding SignOutCommand}"
+							VerticalOptions="EndAndExpand"
+							Margin="20,5"
+                            IsVisible="{Binding Phone,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"/>
+                
+                <!--App Version-->
+					<Label Text="{Binding Version,StringFormat='v {0}'}"
+							TextColor="{StaticResource Additional2}"
+							BackgroundColor="Transparent"
+                            HorizontalOptions="CenterAndExpand"
+							Margin="5"/>
+            </StackLayout>
+
+        </Grid>
+	</ScrollView>
+</ContentPage>

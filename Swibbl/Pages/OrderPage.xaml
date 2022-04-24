@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+			 x:Class="Swibbl.Pages.OrderPage"
+			 xmlns:fontawesome="clr-namespace:FontAwesome"
+             x:DataType="viewmodel:OrderPageModel"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Order.OrderId}"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ScrollView>
+        <StackLayout Padding="10">
+        
+            <!--Product Details-->
+            <Frame HasShadow="False"
+				    CornerRadius="0">
+                <StackLayout>
+                    <Label Text="{Binding Order.OrderDate}"
+                           Style="{StaticResource body}"/>
+                
+                        <ffimg:CachedImage Source="{Binding Order.Imgurl}"
+                                           Style="{StaticResource cacheimage}"
+                                           HeightRequest="150"
+                                           />
+
+                    <Frame BackgroundColor="WhiteSmoke"
+					       HasShadow="False">
+                        <StackLayout>
+                            <Label Text="{Binding Order.Name}"
+                                   Style="{StaticResource body}"/>
+                            <Label Text="{Binding Order.OrderTotal,StringFormat='₹{0}'}"
+                                   Style="{StaticResource caption}"
+                                   TextColor="{StaticResource Primary}"/>
+                            <Label Style="{StaticResource fas}"
+                                   IsVisible="{Binding IsVisible}"
+                                   HorizontalOptions="End"
+                                   FontSize="Body"
+                                   >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                            <Span Text="Cancelled"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{x:Static fontawesome:FontAwesomeIcons.TimesCircle}"
+                                                TextColor="{StaticResource PurplePink}"
+                                                />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                    </Frame>
+
+                </StackLayout>
+            </Frame>
+            <!--Status Frame-->
+            <Frame BackgroundColor="{Binding StatusColor}"
+                Padding="10"
+                CornerRadius="5">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="{Binding Order.Status}"
+                        HorizontalTextAlignment="Start"
+                        TextColor="White"
+                        Style="{StaticResource body}"/>
+                    <Label Text="{Binding Order.ActivityDate}"
+                        TextColor="White"
+                        Style="{StaticResource body}"/>
+                </StackLayout>
+            </Frame>
+            <!--Cancel Button-->
+            <Button Text="Cancel"
+                    Command="{Binding CancelCommand}"
+                    HorizontalOptions="End"
+                    Style="{StaticResource bicon}"
+                    IsVisible="{Binding IsBusy}"/>
+            <!--Refund-->
+            <Label Style="{StaticResource fas}"
+                   Padding="5"
+                   IsVisible="{Binding Order.Refund,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"
+                   HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="Refund Details:"
+                                  Style="{StaticResource body}"
+                                  TextColor="Green"
+                                  />
+                            <Span Text=" "/>
+                            <Span Text="{Binding Order.Refund,StringFormat='Total Amount Credited ₹{0}'}"
+                                  Style="{StaticResource body}"
+                                  TextColor="Green"
+                                  />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

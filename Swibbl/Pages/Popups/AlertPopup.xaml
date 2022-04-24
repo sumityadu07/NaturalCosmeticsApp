@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:popups="clr-namespace:Swibbl.Pages.Popups"
+           x:Class="Swibbl.Pages.Popups.AlertPopup"
+           x:TypeArguments="x:Boolean"
+           Size="250,160"
+           Color="Transparent"
+           x:DataType="popups:AlertPopup">
+    <Frame CornerRadius="2"
+           Padding="0"
+           BackgroundColor="{StaticResource SubPrimary}">
+        <AbsoluteLayout>
+            <Label HorizontalTextAlignment="Center"
+                   Style="{StaticResource title}"
+                   x:Name="head"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   AbsoluteLayout.LayoutBounds="0.5,0.1,200,25"/>
+
+            <BoxView BackgroundColor="{StaticResource Additional2}"
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                   AbsoluteLayout.LayoutBounds="0.5,0.3,240,1"/>
+            <Label Style="{StaticResource body}"
+                   HorizontalTextAlignment="Center"
+                   x:Name="body"
+                   FontFamily="OR"
+                   AbsoluteLayout.LayoutFlags="PositionProportional"
+                   AbsoluteLayout.LayoutBounds="0.5,0.5,200,25"/>
+            
+            <BoxView BackgroundColor="{StaticResource Additional2}"
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     AbsoluteLayout.LayoutBounds="0.5,0.7,240,1"/>
+            
+            <Button Text="Cancel"
+                    Clicked="Cancel"
+                    CornerRadius="0"
+                    Style="{StaticResource bicon}"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="0,1,120,42"/>
+            
+            <BoxView HorizontalOptions="CenterAndExpand"
+                     BackgroundColor="{StaticResource Additional2}"
+                     AbsoluteLayout.LayoutFlags="PositionProportional"
+                     AbsoluteLayout.LayoutBounds="0.5,0.95,1,40"/>
+            
+            <Button Text="Ok"
+                    Clicked="Ok"
+                    TextColor="{StaticResource Primary}"
+                    Style="{StaticResource bicon}"
+                    CornerRadius="0"
+                    AbsoluteLayout.LayoutFlags="PositionProportional"
+                    AbsoluteLayout.LayoutBounds="1,1,120,42"/>
+        </AbsoluteLayout>
+    </Frame>
+</xct:Popup>

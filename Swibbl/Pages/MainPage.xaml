@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+			 xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+			 xmlns:fontAwesome="clr-namespace:FontAwesome"
+             xmlns:swibbl="clr-namespace:Swibbl"
+             xmlns:category="clr-namespace:Swibbl.Models.Shop"
+			 x:Class="Swibbl.Pages.MainPage"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:DataType="viewmodel:MainPageModel"
+             >
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal">
+            <Image Source="icon"
+                   Aspect="AspectFit"
+                   HeightRequest="25"/>
+            <Label Text="Swibbl"
+                   Style="{StaticResource title}"
+                   FontFamily="OM"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Search},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                     Command="{Binding OpenSearchCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                     Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                     Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <Grid xct:StateLayout.AnimateStateChanges="True"
+          xct:StateLayout.CurrentState="{Binding State}">
+        <xct:StateLayout.StateViews>
+            <xct:StateView StateKey="Loading"
+                           Template="{StaticResource loading_state}"
+                           />
+            <xct:StateView StateKey="Error"
+                            Template="{StaticResource error_state}"/>
+            <xct:StateView StateKey="Success"
+                           >
+                <Grid RowDefinitions="65,100,65,65"
+                      RowSpacing="10">
+                    <Grid.Resources>
+                        <Style TargetType="ffimg:CachedImage" ApplyToDerivedTypes="True" BasedOn="{StaticResource cacheimage}">
+                            <Setter Property="HeightRequest" Value="40"/>
+                        </Style>
+                    </Grid.Resources>
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"/> 
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"
+                                       Grid.Column="1"/> 
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"
+                                       HeightRequest="100"
+                                       Grid.Row="1"
+                                       Grid.ColumnSpan="2"/>
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"
+                                       Grid.Row="2"/>
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"
+                                       Grid.Row="2"
+                                       Grid.Column="1"/>
+                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                       Source="ojects"
+                                       Grid.Row="3"
+                                       Grid.ColumnSpan="2"/>
+                </Grid>
+            </xct:StateView>
+        </xct:StateLayout.StateViews>
+        <CollectionView ItemsSource="{Binding Offers}"
+                        BackgroundColor="{StaticResource SubPrimary}"
+                        Margin="0">
+            <CollectionView.Header>
+                <StackLayout>
+                    <CollectionView ItemsSource="{Binding Categories}"
+                                    HeightRequest="120"
+                                    Margin="0">
+                        <CollectionView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                                ItemSpacing="5"/>
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Padding="2">
+                                <Frame CornerRadius="4"
+                                        Padding="0"
+                                        x:DataType="category:Category">
+                                    <StackLayout >
+                                        <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                                            Source="{Binding Imgurl}"
+                                                            WidthRequest="80"
+                                                            HeightRequest="80"/>
+                                        <Label Text="{Binding Name}"
+                                                Style="{StaticResource body}"
+                                                HorizontalTextAlignment="Center"/>
+                                    </StackLayout>
+                                        <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                                    Command="{Binding Source={RelativeSource
+                                                    AncestorType={x:Type viewmodel:MainPageModel}},
+                                                    Path=CategoryCommand}"
+                                                    CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                    <CarouselView ItemsSource="{Binding Carousel}"
+                                  IndicatorView="indicatorView"
+                                  VerticalScrollBarVisibility="Never"
+                                  HeightRequest="200"
+                                  Position="{Binding Position}"
+                                  Margin="0"
+                                  >
+                        <CarouselView.ItemsLayout>
+                            <LinearItemsLayout Orientation="Horizontal"
+                                                SnapPointsAlignment="Center"
+                                                SnapPointsType="MandatorySingle"/>
+                        </CarouselView.ItemsLayout>
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                            <StackLayout Padding="0,2"
+                                         x:DataType="category:Brand">
+                                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                                    Source="{Binding Imgurl}"
+                                                    HeightRequest="200">
+                                        <ffimg:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource
+                                                AncestorType={x:Type viewmodel:MainPageModel}},
+                                                Path=BrandCommand}"
+                                                CommandParameter="{Binding .}"/>
+                                        </ffimg:CachedImage.GestureRecognizers>
+                                    </ffimg:CachedImage>
+                            </StackLayout>
+
+                        </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <IndicatorView x:Name="indicatorView"
+                                   SelectedIndicatorColor="{StaticResource Primary}"
+                                   IndicatorColor="LightGray"
+                                   IndicatorSize="5"
+                                   HorizontalOptions="Center"
+                                   Padding="2"/>
+                </StackLayout>
+            </CollectionView.Header>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical"
+                                   ItemSpacing="8"/>
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="0"
+                           CornerRadius="4">
+                        <ffimg:CachedImage Source="{Binding Imgurl}"
+                                           x:DataType="category:Brand">
+                            <ffimg:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource
+                                                AncestorType={x:Type viewmodel:MainPageModel}},
+                                                Path=BrandCommand}"
+                                                CommandParameter="{Binding .}"/>
+                            </ffimg:CachedImage.GestureRecognizers>
+                        </ffimg:CachedImage>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage> 

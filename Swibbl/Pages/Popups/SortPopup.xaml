@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xct:Popup xmlns="http://xamarin.com/schemas/2014/forms"
+           xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+           xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+           xmlns:models="clr-namespace:Swibbl.Models"
+           xmlns:popups="clr-namespace:Swibbl.Pages.Popups"
+           x:DataType="popups:SortPopup"
+           x:TypeArguments="x:String"
+           x:Class="Swibbl.Pages.Popups.SortPopup"
+           VerticalOptions="EndAndExpand"
+           Size="345,220"
+           Color="Transparent"
+         >
+    <Frame BackgroundColor="{StaticResource SubPrimary}"
+            CornerRadius="10"
+            Padding="10">
+        <CollectionView x:Name="collection"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding Preference}">
+            <CollectionView.Resources>
+                <Style TargetType="StackLayout">
+                    <Setter Property="VisualStateManager.VisualStateGroups">
+                        <VisualStateGroupList>
+                            <VisualStateGroup>
+                                <VisualState x:Name="Normal">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="checkbox"
+                                                    Property="CheckBox.IsChecked"
+                                                    Value="False"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter TargetName="checkbox"
+                                                    Property="CheckBox.IsChecked"
+                                                    Value="True"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateGroupList>
+                    </Setter>
+                </Style>
+            </CollectionView.Resources>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="5"
+                                Orientation="Horizontal"
+                                BackgroundColor="{StaticResource SubPrimary}"
+                                x:DataType="models:SortPrefernce"
+                                 >
+                        
+                        <Label Text="{Binding Name}"
+                                Style="{StaticResource body}"
+                                VerticalTextAlignment="Center"
+                            />
+                        <CheckBox IsEnabled="False"
+                                  Color="Green"
+                                  x:Name="checkbox"
+                                  HorizontalOptions="EndAndExpand"/>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Frame>
+</xct:Popup>

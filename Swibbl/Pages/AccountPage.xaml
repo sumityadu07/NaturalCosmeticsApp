@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 x:Class="Swibbl.Pages.AccountPage"
+			 xmlns:swibbl="clr-namespace:Swibbl"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+             x:DataType="viewmodel:AccountPageModel">
+    
+    <NavigationPage.TitleView>	
+        <Label Text="Account"
+				Style="{StaticResource title}"/>
+    </NavigationPage.TitleView>
+    <ScrollView>
+		<Grid>
+            <StackLayout Spacing="30" BackgroundColor="Transparent" HorizontalOptions="Center" WidthRequest="300" Padding="10">
+                <!--Phone-->
+					<Frame Padding="5"
+						   BackgroundColor="WhiteSmoke"
+						   HasShadow="False">
+						<StackLayout Orientation="Horizontal"
+									 Padding="10,0">
+                            <Label Text="{Binding Phone}"
+								   Style="{StaticResource body}"
+                                   VerticalTextAlignment="Center"
+								   TextColor="{StaticResource Primary}"/>
+							<Button Text="CHANGE"
+									Command="{Binding OpenTabCommand}"
+									FontFamily="QB"
+									TextColor="#ca1f14"
+									HorizontalOptions="EndAndExpand"
+									BackgroundColor="Transparent"/>
+						</StackLayout>
+					</Frame>
+                
+				<!--Editor-->
+				<StackLayout Spacing="10"
+							 >
+					<StackLayout.Resources>
+						<Style TargetType="Editor" ApplyToDerivedTypes="True">
+							<Setter Property="FontFamily" Value="OM"/>
+							<Setter Property="FontSize" Value="15"/>
+							<Setter Property="Margin" Value="10,2"/>
+							<Setter Property="TextColor" Value="{StaticResource Normal}"/>
+						</Style>
+					</StackLayout.Resources>
+
+                    <Editor Text="{Binding Name}"
+                            Placeholder="Name"/>
+                    <Editor Text="{Binding Email}"
+                            Placeholder="Email"/>
+					<Button Text="{x:Static fontawesome:FontAwesomeIcons.Check}"
+                            FontFamily="FAS"
+                            BorderColor="{StaticResource SubPrimary}"
+                            Style="{StaticResource bicon}"
+                            FontSize="Medium"
+                            HorizontalOptions="End"
+							Command="{Binding SaveCommand}"/>
+						
+				</StackLayout>
+			</StackLayout>
+           <!--Phone Update-->
+			<Frame IsVisible="{Binding IsAUpdate}"
+                   VerticalOptions="End"
+                   CornerRadius="10">
+                <StackLayout>
+                    <Frame Padding="0"
+							CornerRadius="5">
+                        <StackLayout Orientation="Horizontal"
+								Spacing="0">
+                            <Image Style="{StaticResource flagimg}"/>
+                            <Label Style="{StaticResource cclabel}"/>
+                            <swibbl:CustomEntry Placeholder="Phone"
+									Text="{Binding Phone}"
+                                    Keyboard="Numeric"/>
+                        </StackLayout>
+                    </Frame>
+                    
+                    <Button Text="Send Code"
+							Command="{Binding SendCodeCommand}"
+                            CommandParameter="Update"
+							WidthRequest="100"/>
+                    <Button Text="Back"
+							TextColor="{StaticResource StaticBlue}"
+							BackgroundColor="Transparent"
+							HorizontalOptions="CenterAndExpand"
+							Padding="10"
+							Command="{Binding CloseTabCommand}"/>
+
+				</StackLayout>
+			</Frame>
+		</Grid>
+	</ScrollView>
+</ContentPage>

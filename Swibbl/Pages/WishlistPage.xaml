@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             x:Class="Swibbl.Pages.WishlistPage"
+			 xmlns:fontawesome="clr-namespace:FontAwesome"
+             x:DataType="pages:WishlistPageModel">
+    <NavigationPage.TitleView>
+        <Label Text="Your Wishes"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+
+    <ContentPage.Content>
+        <Grid xct:StateLayout.AnimateStateChanges="True"
+              xct:StateLayout.CurrentState="{Binding State}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading"
+                               Template="{StaticResource loading_state}"
+                               />
+                <xct:StateView StateKey="Empty"
+                               Template="{StaticResource empty_state}"/>
+            </xct:StateLayout.StateViews>
+            <CollectionView ItemsSource="{Binding Wishes}"
+                            SelectedItem="{Binding SelectedWish}"
+                            SelectionMode="Single"
+                            BackgroundColor="{StaticResource SubSecondary}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="2">
+                            <Frame Padding="5"
+                                   HasShadow="False"
+                                   HorizontalOptions="Center">
+                                <Grid x:DataType="shop:Product"
+                                     RowDefinitions="22,24,100">
+                                    <ImageButton Source="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.TrashAlt},FontFamily=FAR,Color={StaticResource Normal}}"
+                                                 Grid.Column="2"
+                                                 Command="{Binding Source={RelativeSource
+                                                          AncestorType={x:Type pages:WishlistPageModel}},
+                                                          Path=DeleteCommand}"
+                                                 CommandParameter="{Binding .}"
+                                                 BackgroundColor="{StaticResource SubPrimary}"
+                                                 HorizontalOptions="End"
+                                                 Padding="2"/>
+                                    <Label Text="{Binding Name}"
+                                           Grid.Row="1"
+                                           Style="{StaticResource body}"
+                                           Padding="3"
+                                           Grid.ColumnSpan="2"/>
+                                    <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                                       Source="{Binding ImgUrl}"
+                                                       Aspect="AspectFit"
+                                                       HeightRequest="140"
+                                                       Grid.Row="2"/>
+                                    
+                                    <Label HorizontalOptions="End"
+                                           Grid.Row="2"
+                                           Grid.ColumnSpan="2"
+                                           Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <FormattedString.Spans>
+                                                    <Span Text="{Binding Price,StringFormat='₹{0}'}"
+                                                          FontSize="11"
+                                                          Style="{StaticResource caption}"
+                                                          TextDecorations="Strikethrough"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding DiscountedPrice,StringFormat='₹{0}'}"
+                                                          Style="{StaticResource body}"/>
+                                                    <Span Text=" | "
+                                                          Style="{StaticResource body}"
+                                                          />
+                                                    <Span Text="{Binding Discount,StringFormat='{0}% Off'}"
+                                                            Style="{StaticResource subTitle}"
+                                                            TextColor="#b91372"
+                                                            FontSize="13"
+                                                          />
+                                                </FormattedString.Spans>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Frame CornerRadius="8"
+                                           Padding="5"
+                                           Grid.Row="2"
+                                           Grid.Column="1"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           BackgroundColor="{StaticResource Primary}">
+                                        <Label Text="5.5"
+                                                   Style="{StaticResource body}"
+                                                   FontSize="9"
+                                                   TextColor="{StaticResource SubPrimary}"/>
+                                    </Frame>
+                                            <Button Text="Add to Cart"
+                                                    Command="{Binding Source={RelativeSource AncestorType={x:Type pages:WishlistPageModel}},Path=AddCommand}"
+                                                    VerticalOptions="Center"
+                                                    CommandParameter="{Binding .}"
+                                                    CornerRadius="0"
+                                                    Grid.Column="2"
+                                                    Grid.Row="2"/>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.ShopPage"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+			 xmlns:fontAwesome="clr-namespace:FontAwesome"
+             xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             x:DataType="viewmodel:ShopPageModel">
+    <NavigationPage.TitleView>
+        <Label Text="Shop"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <CollectionView ItemsSource="{Binding Categories}"
+						ItemSizingStrategy="MeasureAllItems"
+                        SelectionMode="Single"
+                        SelectedItem="{Binding SelectedItem}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="50"
+                        RowDefinitions="150"
+                        Padding="10">
+                    <ffimg:CachedImage Source="icon"
+                                        Style="{StaticResource cacheimage}"
+                                        HeightRequest="50"
+                                        Aspect="AspectFit"
+                                        HorizontalOptions="Start"
+                                        />
+                    <Label Text="Swibbl Store"
+                            Style="{StaticResource title}"
+                            FontSize="Title"
+                            Grid.Column="1"/>
+                        
+                    <Label Text="Categories"
+                            Padding="2"
+                            Style="{StaticResource body}"
+                            CharacterSpacing="2"
+                            Grid.Row="1"
+                            Grid.ColumnSpan="2"/>
+                </Grid>
+                    
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="1"
+                            x:DataType="shop:Category"
+                            BackgroundColor="{StaticResource SubSecondary}">
+                                    
+                        <Label Text="{Binding Name}"
+                                Style="{StaticResource body}"
+                                FontSize="Small"
+                                Padding="15"
+                                VerticalTextAlignment="Center"
+                                CharacterSpacing="1"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="{StaticResource SubPrimary}"/>
+                                    
+                        <Label Text="{x:Static fontAwesome:FontAwesomeIcons.RightArrowAlt}"
+                                Style="{StaticResource fas}"
+                                FontSize="Micro"
+                                Padding="15"
+                                TextColor="{StaticResource Normal}"
+                                HorizontalOptions="EndAndExpand"/>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </ContentPage.Content>
+</ContentPage>

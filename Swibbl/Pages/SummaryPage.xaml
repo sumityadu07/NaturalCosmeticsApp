@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="Swibbl.Pages.SummaryPage"
+			 xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             x:DataType="pages:SummaryPageModel">
+    <ContentPage.Content>
+        <Grid xct:StateLayout.AnimateStateChanges="True"
+                     xct:StateLayout.CurrentState="{Binding State}">
+            <xct:StateLayout.StateViews>
+                <xct:StateView StateKey="Loading"
+                               Template="{StaticResource loading_state}"/>
+                <xct:StateView StateKey="Success">
+                    <StackLayout>
+                    <Label Text="Order Successful"
+                           Style="{StaticResource title}"
+                           TextColor="Green"/>
+                        <Button Text="Continue Shopping"
+                                Command="{Binding ContinueCommand}"/>
+                    </StackLayout>
+
+                </xct:StateView>
+            </xct:StateLayout.StateViews>
+            <CollectionView ItemsSource="{Binding Cart.Products}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="0,2"
+                                     x:DataType="shop:Product">
+                            <Frame Padding="10">
+                                <Grid ColumnDefinitions="220">
+                                    <Label LineBreakMode="WordWrap"
+                                           Style="{StaticResource body}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Name}"/>
+                                                <Span Text="×"/>
+                                                <Span Text="{Binding Quantity}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Text="{Binding Total,StringFormat='₹{0}'}"
+                                           Style="{StaticResource body}"
+                                           Grid.Row="1"
+                                           TextColor="{StaticResource Primary}"/>
+                                    <ffimg:CachedImage Source="{Binding ImgUrl}"
+                                                       Style="{StaticResource cacheimage}"
+                                                       HeightRequest="60"
+                                                       Grid.Column="1"
+                                                       Grid.RowSpan="2"/>
+                                </Grid>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <Frame BackgroundColor="{StaticResource SubSecondary}"
+                   Padding="8"
+                   VerticalOptions="End">
+                <StackLayout>
+                    <Label Text="{Binding Cart.ShippingAddress}"
+                           Style="{StaticResource caption}"
+                           TextColor="Gray"/>
+                    <Label Text="{Binding Total,StringFormat='Total ₹{0}'}"
+                           Style="{StaticResource body}"
+                           TextColor="{StaticResource Primary}"/>
+                    <Button Text="Complete Order"
+                            Command="{Binding OrderCommand}"/>
+                </StackLayout>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

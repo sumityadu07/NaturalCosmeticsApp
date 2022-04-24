@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:swibbl="clr-namespace:Swibbl"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             x:Class="Swibbl.Pages.VerifyCodePage"
+             x:DataType="pages:VerifyCodePageModel">
+    <NavigationPage.TitleView>
+        <Label Text="Login / Signup"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="CenterAndExpand"
+                     Padding="10">
+            <Label Text="Enter Verification Code"
+                   Style="{StaticResource title}"/>
+            <Label Text="Enter the text we have sent on the given phone Number"
+                   Style="{StaticResource caption}"/>
+
+            <Frame BackgroundColor ="{StaticResource SubPrimary}"
+                   Margin="10"
+                   Padding="0"
+                   WidthRequest="130"
+                   HorizontalOptions="Center"
+                   CornerRadius="8">
+                <swibbl:CustomEntry Text="{Binding Code}"
+                                    Placeholder="Code"
+                                    HorizontalTextAlignment="Center"
+                                    CharacterSpacing="4"/>
+            </Frame>
+            <Label Text="{Binding Count,StringFormat='00:{0}'}"
+                   Style="{StaticResource body}"
+                   TextColor="Green"
+                   HorizontalOptions="CenterAndExpand"/>
+            
+            <Button Text="Login"
+					Command="{Binding LoginCommand}"
+                    WidthRequest="100"/>
+            <Label Padding="5"
+                   Style="{StaticResource caption}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="If you did not receive code. "
+                                  TextColor="{StaticResource Additional2}"/>
+                            <Span Text="Resend Code"
+                                  TextColor="{StaticResource StaticBlue}"
+                                  TextDecorations="Underline">
+                                <Span.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding ResendCodeCommand}"/>
+                                </Span.GestureRecognizers>
+                            </Span>
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <ActivityIndicator Style="{StaticResource indicator}"
+                               IsVisible="{Binding IsBusy}"
+                               IsRunning="{Binding IsBusy}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

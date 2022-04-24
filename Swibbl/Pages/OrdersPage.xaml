@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+			 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+			 xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+			 x:Class="Swibbl.Pages.OrdersPage"
+			 xmlns:fontawesome="clr-namespace:FontAwesome"
+             x:DataType="viewmodel:OrdersPageModel"
+             xmlns:shop="clr-namespace:Swibbl.Models.Shop"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms">
+    <NavigationPage.TitleView>
+        <Label Text="Your Orders"
+				Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <Grid xct:StateLayout.AnimateStateChanges="True"
+              xct:StateLayout.CurrentState="{Binding State}">
+        <xct:StateLayout.StateViews>
+            <xct:StateView StateKey="Loading"
+                           Template="{StaticResource loading_state}"/>
+            <xct:StateView StateKey="Empty"
+                           >
+                <Label Text="No Orders!"
+                       Style="{StaticResource title}"
+                       FontFamily="OM"/>
+            </xct:StateView>
+        </xct:StateLayout.StateViews>
+        <CollectionView ItemsSource="{Binding Products}"
+                        >
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout Padding="2"
+                                 BackgroundColor="{StaticResource SubSecondary}">
+                        <Frame Padding="8"
+                               HasShadow="False"
+                               x:DataType="shop:Order">
+                            <Grid RowDefinitions="20,100">
+                                <Label Style="{StaticResource body}"
+                                       Padding="3"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       Grid.ColumnSpan="2"
+                                       LineBreakMode="WordWrap">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Name}"/>
+                                            <Span Text="×"/>
+                                            <Span Text="{Binding Quantity}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                
+                                <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                                   Source="{Binding Imgurl}"
+                                                   Aspect="AspectFit"
+                                                   HeightRequest="140"
+                                                   Grid.RowSpan="2"/>
+                                <Label Text="{x:Static fontawesome:FontAwesomeIcons.ChevronRight}"
+                                      Style="{StaticResource fas}"
+                                       Grid.Column="3"
+                                       HorizontalTextAlignment="End"
+                                       Grid.Row="1"
+                                       Padding="10"/>
+                                <Label Text="{Binding OrderTotal,StringFormat='Total ₹{0}'}"
+                                      Style="{StaticResource body}"
+                                      Grid.Row="1"
+                                      VerticalOptions="End"
+                                      />
+                                
+                                <Label Grid.ColumnSpan="3"
+                                       Style="{StaticResource body}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Status,StringFormat='{0}'}"/>
+                                            <Span Text="  "/>
+                                            <Span Text="{Binding ActivityDate}"
+                                                  Style="{StaticResource caption}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <!--<Label Text="{x:Static fontawesome:FontAwesomeIcons.ChevronRight}"
+                                       Style="{StaticResource fas}"
+                                       Grid.Row="1"
+                                       Grid.Column="3"/>-->
+                            </Grid>
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:OrdersPageModel}},Path=ViewOrderCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+	</Grid>
+</ContentPage>

@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Swibbl.Pages.AddressPage"
+             x:DataType="pages:AddressPageModel"
+             xmlns:fontawesome="clr-namespace:FontAwesome"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:user="clr-namespace:Swibbl.Models.User">
+    <ContentPage.Resources>
+        <Style TargetType="StackLayout">
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup>
+                        <VisualState x:Name="Normal">
+                            <VisualState.Setters>
+                                <Setter TargetName="checkbox"
+                                        Property="CheckBox.IsChecked"
+                                        Value="False"
+                                        />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Selected">
+                            <VisualState.Setters>
+                                <Setter TargetName="checkbox"
+                                        Property="CheckBox.IsChecked"
+                                        Value="True"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+    </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <Label Text="Your Address"
+				Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid 
+              RowDefinitions="200,80,auto,60">
+            <Label Text="Select a Address"
+                   Style="{StaticResource title}"
+                   HorizontalOptions="Center"
+                   Grid.ColumnSpan="2"/>
+
+            <Frame Grid.ColumnSpan="2"
+                   VerticalOptions="Center"
+                   Padding="10"
+                   Grid.Row="1"
+                   Margin="10"
+                   CornerRadius="10"
+                   BackgroundColor="{StaticResource SubSecondary}">
+                <Label Style="{StaticResource fas}"
+                       HorizontalOptions="CenterAndExpand">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="{x:Static fontawesome:FontAwesomeIcons.Plus}"/>
+                                <Span Text=" "/>
+                                <Span Text="Add Address"
+                                        Style="{StaticResource body}"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding NewAddressCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+            
+            <CollectionView ItemsSource="{Binding Addresses}"
+                            SelectedItem="{Binding SelectedAddress,Mode=TwoWay}"
+                            SelectionMode="Single"
+                            Grid.Row="2"
+                            Grid.ColumnSpan="2">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <StackLayout Padding="10"
+                                     BackgroundColor="{StaticResource SubPrimary}">
+                                <StackLayout Orientation="Horizontal">
+                                    <CheckBox IsEnabled="False"
+                                              Color="{StaticResource Primary}"
+                                              x:Name="checkbox"
+                                              IsVisible="{Binding Source={RelativeSource
+                                             AncestorType={x:Type pages:AddressPageModel}},
+                                             Path=Cart.OrderDate,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"/>
+                                    <Label Text="{Binding Location}"
+                                           VerticalTextAlignment="Center"
+                                           Style="{StaticResource body}"
+                                           FontSize="Small"
+                                           x:DataType="user:Address"
+                                           />
+                                <ImageButton Source="{FontImage Glyph={x:Static fontawesome:FontAwesomeIcons.TrashAlt},FontFamily=FAR,Color={StaticResource Normal},Size=Medium}"
+                                             Command="{Binding Source={RelativeSource
+                                             AncestorType={x:Type pages:AddressPageModel}},
+                                             Path=DltCommand}"
+                                                 CommandParameter="{Binding .}"
+                                             IsVisible="{Binding Source={RelativeSource
+                                             AncestorType={x:Type pages:AddressPageModel}},
+                                             Path=Cart.OrderDate,Converter={StaticResource StringNullOrEmptyBoolConverter}}"
+                                                Margin="4,8"
+                                                 BackgroundColor="{StaticResource SubPrimary}"/>
+                            </StackLayout>
+                        </StackLayout>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            
+            <Button Text="Done"
+                    Command="{Binding DoneCommand}"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="3"
+                    Margin="10"
+                    IsVisible="{Binding Cart.OrderDate,Converter={StaticResource StringNotNullOrEmptyBoolConverter}}"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

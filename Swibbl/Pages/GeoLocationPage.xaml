@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Swibbl.Pages"
+             xmlns:pancakeview="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="Swibbl.Pages.GeoLocationPage"
+			 xmlns:fontawesome="clr-namespace:FontAwesome"
+             x:DataType="pages:GeoLocationPageModel"
+             BackgroundColor="{StaticResource Additional2}">
+    <ContentPage.Content>
+        <StackLayout VerticalOptions="End">
+
+            <Frame Padding="8"
+                   HorizontalOptions="End"
+                   CornerRadius="15"
+                   Margin="10"
+                   HeightRequest="18">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DetectCommand}"/>
+                </Frame.GestureRecognizers>
+                <Label>
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <FormattedString.Spans>
+                                <Span Text="{x:Static fontawesome:FontAwesomeIcons.MapMarkerAlt}"
+                                      FontFamily="FAS"
+                                      FontSize="13"/>
+                                <Span Text=" "/>
+                                <Span Text="Detect"
+                                      Style="{StaticResource body}"
+                                      CharacterSpacing="2"/>
+                            </FormattedString.Spans>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Frame>
+            <pancakeview:PancakeView Padding="10"
+                                 CornerRadius="20,20,0,0"
+                                 BackgroundColor="{StaticResource SubPrimary}">
+                <Grid RowDefinitions="20,50,18,40,20,40,auto,auto,auto,auto,auto">
+                    <Grid.Resources>
+                        <Style TargetType="Label" BasedOn="{StaticResource body}" ApplyToDerivedTypes="True"/>
+                        <Style TargetType="Editor" ApplyToDerivedTypes="True">
+                            <Setter Property="FontFamily" Value="QB"/>
+                            <Setter Property="FontSize" Value="Body"/>
+                            <Setter Property="TextColor" Value="{StaticResource Secondary}"/>
+                            <Setter Property="PlaceholderColor" Value="{StaticResource Additional2}"/>
+                        </Style>
+                        <Style TargetType="RadioButton" ApplyToDerivedTypes="True">
+                            <Setter Property="FontFamily" Value="NR"/>
+                            <Setter Property="FontSize" Value="Small"/>
+                            <Setter Property="TextColor" Value="{StaticResource Secondary}"/>
+                        </Style>
+                    </Grid.Resources>
+
+                    <Label Text="Your location"
+               Style="{StaticResource body}"
+               Padding="5,2"/>
+                    <Editor Grid.Row="1"
+                Grid.ColumnSpan="3"
+                Text="{Binding Location}"
+                Placeholder="Location"/>
+                    <Label Text="Additional Details"
+                Grid.Row="2"
+                Grid.ColumnSpan="2"/>
+                    <Editor Grid.Row="3"
+                Grid.ColumnSpan="2"
+                Text="{Binding Details}"
+                Placeholder="Flat/Building/Street"/>
+                    <Label Grid.Row="4"
+                Grid.Column="1"
+                Text="Your Name"/>
+                    <Picker Grid.Row="5"
+                    VerticalOptions="Center"
+                    SelectedItem="{Binding Gender}"
+                    >
+                        <Picker.ItemsSource>
+                            <x:Array Type="{x:Type x:String}">
+                                <x:String>Mr.</x:String>
+                                <x:String>Ms.</x:String>
+                            </x:Array>
+                        </Picker.ItemsSource>
+                    </Picker>
+                    <Editor Grid.Row="5"
+                Grid.Column="1"
+                Grid.ColumnSpan="2"
+                Text="{Binding Name}"
+                Placeholder="House name"/>
+                    <Label Text="Save as"
+                Grid.Row="6"/>
+                    <Editor Placeholder="Home/Office/Other"
+                Grid.Row="7"
+                Grid.ColumnSpan="2"
+                Text="{Binding Saveas}"/>
+                    <Editor Grid.Row="8"
+                Grid.ColumnSpan="2"
+                Text="{Binding Phone}"/>
+                    <Button Text="Add Details"
+                Grid.Row="9"
+                Grid.ColumnSpan="3"
+                HorizontalOptions="Fill"
+                Margin="10"
+                Command="{Binding SaveAddressCommand}"/>
+                    <Frame CornerRadius="20"
+                VerticalOptions="End"
+                IsVisible="false"
+                Grid.Row="10"
+                Grid.ColumnSpan="2">
+                        <StackLayout>
+                            <Button Text="Use My Current Location"/>
+                            <Button Text="Get a Different location"
+                        BackgroundColor="MediumPurple"/>
+                        </StackLayout>
+                    </Frame>
+                </Grid>
+
+            </pancakeview:PancakeView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

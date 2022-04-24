@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimg="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:model="clr-namespace:Swibbl.Models.Shop"
+			 xmlns:fontAwesome="clr-namespace:FontAwesome"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:viewmodel="clr-namespace:Swibbl.Pages"
+             x:DataType="viewmodel:ListPageModel"
+             x:Class="Swibbl.Pages.ListPage">
+    <NavigationPage.TitleView>
+        <Label Text="{Binding Title}"
+               Style="{StaticResource titletext}"/>
+    </NavigationPage.TitleView>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.Heart},FontFamily=FAR,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenWishlistCommand}"/>
+        <ToolbarItem IconImageSource="{FontImage Glyph={x:Static fontAwesome:FontAwesomeIcons.ShoppingBag},FontFamily=FAS,Color={StaticResource Secondary},Size=22}"
+                         Command="{Binding OpenCartCommand}"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid xct:StateLayout.AnimateStateChanges="True"
+              xct:StateLayout.CurrentState="{Binding State}">
+                <xct:StateLayout.StateViews>
+                    <xct:StateView StateKey="Loading"
+                                   Template="{StaticResource loading_state}"/>
+                </xct:StateLayout.StateViews>
+            <CollectionView ItemsSource="{Binding Products}"
+                            SelectedItem="{Binding SelectedItem}"
+                            SelectionMode="Single"
+                            Margin="0,0,0,45"
+                            BackgroundColor="{StaticResource SubPrimary}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                                     Span="2"
+                                     VerticalItemSpacing="5"
+                                     HorizontalItemSpacing="5"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="0"
+                                       HorizontalOptions="Center"
+                                       WidthRequest="250">
+                            <StackLayout x:DataType="model:Product">
+                                <Label Text="{Binding Status}"
+                                               Style="{StaticResource title}"
+                                               FontSize="Caption"
+                                               Padding="2"
+                                               TextColor="Green"/>
+                                <ffimg:CachedImage Style="{StaticResource cacheimage}"
+                                                            Source="{Binding ImgUrl}"
+                                                            Aspect="AspectFit"
+                                                            HeightRequest="140"/>
+                                <Label Text="{Binding Name}"
+                                                        Style="{StaticResource caption}"
+                                                        HorizontalTextAlignment="Center"
+                                                     Padding="3"/>
+                                <Label HorizontalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <FormattedString.Spans>
+                                                <Span Text="{Binding Price,StringFormat='₹{0}'}"
+                                                                  FontSize="11"
+                                                                Style="{StaticResource caption}"
+                                                                  TextDecorations="Strikethrough"/>
+                                                <Span Text=" "/>
+                                                <Span Text="{Binding DiscountedPrice,StringFormat='₹{0}'}"
+                                                                    Style="{StaticResource body}"/>
+                                                <Span Text=" | "
+                                                              Style="{StaticResource body}"
+                                                              />
+                                                <Span Text="{Binding Discount,StringFormat='{0}% Off'}"
+                                                                Style="{StaticResource subTitle}"
+                                                                TextColor="#b91372"
+                                                                FontSize="13"
+                                                              />
+                                            </FormattedString.Spans>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Frame CornerRadius="8"
+                                                   Padding="5"
+                                                   Margin="5,1"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   BackgroundColor="{StaticResource Solid}">
+                                    <Label Text="5.5"
+                                                       Style="{StaticResource body}"
+                                                       FontSize="9"
+                                                       TextColor="{StaticResource SubPrimary}"/>
+                                </Frame>
+                                <Frame Padding="0"
+                                               HeightRequest="45"
+                                               VerticalOptions="EndAndExpand">
+                                    <StackLayout Orientation="Horizontal"
+                                                         Spacing="0">
+                                        <ImageButton Command="{Binding Source={RelativeSource AncestorType=                                                                 {x:Type               viewmodel:ListPageModel}},
+                                                                       Path=WishlistCommand}"
+                                                             CommandParameter="{Binding .}"
+                                                             Source="heart"
+                                                             BackgroundColor="Transparent"
+                                                             xct:IconTintColorEffect.TintColor="Black"
+                                                             Margin="2"/>
+
+                                        <Button Text="Add to Cart"
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:ListPageModel}},Path=AddCartCommand}"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        CommandParameter="{Binding .}"
+                                                        CornerRadius="0"/>
+
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <ActivityIndicator Style="{StaticResource indicator}"
+							           IsRunning="{Binding IsBusy}"
+                                       IsVisible="{Binding IsBusy}"/>
+                </CollectionView.Footer>
+            </CollectionView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
